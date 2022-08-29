@@ -2,7 +2,12 @@
     box-sizing: border-box;
   }
 
-.page-title {
+.time-score {
     color: purple;
     font-size: 15%; 
+}
+
+.start-button {
+    color: black;
+    font-size: 30; 
 }
