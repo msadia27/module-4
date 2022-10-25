@@ -59,35 +59,47 @@ var questions = [
 var startChallenge = document.getElementById('startChallenge');
 var startButton = document.getElementById('startButton');
 var testQuestions = document.getElementById('testPage');
-var questions = document.getElementById('Question');
+//var questions = document.getElementById('Question');
 var questionIndex
-var choice1 = document.querySelector('choice1');
-var choice2 = document.querySelector('choice2');
-var choice3 = document.querySelector('choice3');
-var choice4 = document.querySelector('choice4');
+var choice1 = document.querySelector('#choice1');
+var choice2 = document.querySelector('#choice2');
+var choice3 = document.querySelector('#choice3');
+var choice4 = document.querySelector('#choice4');
 
 let Timer = document.getElementById('Timer');
-var clock; 
+var clock = 100; 
+var clockInterval ;
 var timeStart = 100;
 var timePenalty = 15;
 
-startButton.addEventListener('click', function() {
-  
-  Timer.textContent = clock;
-  document.getElementById('Timer').textContent = timeStart;
+function tick () {
   if (clock > 0){
-    clock -= 1
-  } else {
-    clearInterval(clock);
-    
-  }
+      clock -= 1
+      document.getElementById('Timer').textContent = clock;
+    } else {
+     clearInterval(clock);
+     document.getElementById('Timer').textContent = 0;
+     endGame();
+    }
+};
+
+startButton.addEventListener('click', function() {
+  // clock = timeStart
+  // Timer.textContent = clock;
+  document.getElementById('Timer').textContent = timeStart;
+    clockInterval = setInterval(tick, 1000);
+  // if (clock > 0){
+  //   clock -= 1
+  // } else {
+  //  clearInterval(clock);
+  // }
   startChallenge.classList.remove('testQuestions');
   startButton.classList.add('testQuestions');
   
   questionIndex = 0
   promptQuestions(questionIndex);
 
-  document.getElementById ("start").onclick = function () {
+  document.getElementById ("startChallenge").onclick = function () {
     alert("you must choose an answer to move forward")
   }
   //startQuiz();
@@ -99,14 +111,39 @@ startButton.addEventListener('click', function() {
   //promptQuestions();
   //startButton.classList.add('hide');
 //};
+function selectChoice(Choice) {
+  if (Choice != questions[questionIndex].Answer) {
+    gotQuestionWrong();
+  }
+  if (questionIndex < questions.length - 1) {
+    questionIndex ++
+    // = questionIndex + 1
+  }
+  // else {
+  //   prompt('gotitwrong');
+  // }
+};
 
-function promptQuestions() {
-  testQuestions.textContent = questions[i].Question;
+function promptQuestions(i) {
+  //console.log(questions);
+  document.getElementById('questionAsked').textContent = questions[i].Question;
 
-  choice1.textContent  = questions[i].Choices;
-  choice2.textContent  = questions[i].Choices;
-  choice3.textContent  = questions[i].Choices;
-  choice4.textContent  = questions[i].Choices;
+  choice1.textContent  = questions[i].Choices.a;
+  choice1.onclick = function () {
+    selectChoice(questions[i].Choices.a)
+  };
+  choice2.textContent  = questions[i].Choices.b;
+  choice2.onclick = function () {
+    selectChoice(questions[i].Choices.b)
+  };
+  choice3.textContent  = questions[i].Choices.c;
+  choice3.onclick = function () {
+    selectChoice(questions[i].Choices.c)
+  };
+  choice4.textContent  = questions[i].Choices.d;
+  choice4.onclick = function () {
+    selectChoice(questions[i].Choices.d)
+  };
 };
 
 // When the user answers a question, you can run something like this
@@ -118,20 +155,26 @@ function gotQuestionWrong(){
         Timer.textContent = clock;
     } else {
         clock = 0;
-        timerArea.textContent = clock;
+        Timer.textContent = clock;
         clearInterval(Timer);
         endGame();
     }   
 }
 
-function check() {
-    var correctAnswer = "c";
-    var inputValue = document.getElementById("button").value;
+function endGame () {
+  alert("gameended")
+};
+
+
+
+// function check() {
+//     var correctAnswer = "c";
+//     var inputValue = document.getElementById("button").value;
   
-    if(inputValue !== correctAnswer) {
-      return false;
-    };
-  };
+//     if(inputValue !== correctAnswer) {
+//       return false;
+//     };
+//   };
 
 
 
